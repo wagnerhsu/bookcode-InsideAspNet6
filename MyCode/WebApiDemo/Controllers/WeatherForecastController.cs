@@ -1,3 +1,4 @@
+using System.Text.Json.WxLibrary.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using WebApiDemo.Settings;
@@ -15,9 +16,10 @@ public class WeatherForecastController : ControllerBase
 
     private readonly ILogger<WeatherForecastController> _logger;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger,IOptionsSnapshot<Profile> profileOptions)
     {
         _logger = logger;
+        _logger.LogDebug(profileOptions.Get("bar").ToJson(true));
     }
 
     [HttpGet(Name = "GetWeatherForecast")]

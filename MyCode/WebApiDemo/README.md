@@ -3,3 +3,4 @@
 ## 2022-07-10
 
 - Test IOptionsMonitor
+- Test IOptionsSnapshot

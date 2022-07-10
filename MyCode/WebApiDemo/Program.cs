@@ -17,6 +17,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHostedService<HostedService>();
 builder.Services.Configure<Profile>(builder.Configuration.GetSection("Profile"));
+builder.Services.Configure<Profile>("foo", builder.Configuration.GetSection("foo"));
+builder.Services.Configure<Profile>("bar", builder.Configuration.GetSection("bar"));
 
 var app = builder.Build();
 
