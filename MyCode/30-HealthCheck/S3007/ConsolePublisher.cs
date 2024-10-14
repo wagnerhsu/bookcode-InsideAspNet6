@@ -2,9 +2,9 @@
 using Microsoft.Extensions.ObjectPool;
 using System.Text;
 
-namespace App
-{
-    public class ConsolePublisher : IHealthCheckPublisher
+namespace App;
+
+public class ConsolePublisher : IHealthCheckPublisher
 {
     private readonly ObjectPool<StringBuilder> _stringBuilderPool;
 
@@ -16,7 +16,7 @@ namespace App
         var builder = _stringBuilderPool.Get();
         try
         {
-            builder.AppendLine(@$"Status: {report.Status}[{ DateTimeOffset.Now.ToString("yy-MM-dd hh:mm:ss")}]");
+            builder.AppendLine(@$"Status: {report.Status}[{DateTimeOffset.Now.ToString("yy-MM-dd hh:mm:ss")}]");
             foreach (var name in report.Entries.Keys)
             {
                 builder.AppendLine(@$"    {name}: {report.Entries[name].Status}");
@@ -29,7 +29,6 @@ namespace App
             _stringBuilderPool.Return(builder);
         }
     }
-}
 }
 
 

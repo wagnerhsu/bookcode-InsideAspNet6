@@ -1,8 +1,8 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var random = new Random();
-var builder = WebApplication.CreateBuilder();
-builder.Services.AddHealthChecks().AddCheck(name:"default",check: Check);
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddHealthChecks().AddCheck(name: "default", check: Check);
 var app = builder.Build();
 app.UseHealthChecks(path: "/healthcheck");
 app.Run();

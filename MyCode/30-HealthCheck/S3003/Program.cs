@@ -12,7 +12,7 @@ var options = new HealthCheckOptions
     }
 };
 
-var builder = WebApplication.CreateBuilder();
+var builder = WebApplication.CreateBuilder(args);
 builder.Services
     .AddHealthChecks()
     .AddCheck(name:"default",check: Check);

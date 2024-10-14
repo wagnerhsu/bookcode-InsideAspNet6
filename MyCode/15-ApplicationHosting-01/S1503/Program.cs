@@ -1,4 +1,4 @@
-Host.CreateDefaultBuilder()
+Host.CreateDefaultBuilder(args)
     .ConfigureWebHostDefaults(webHostBuilder => webHostBuilder.UseStartup<Startup>())
     .Build()
     .Run();

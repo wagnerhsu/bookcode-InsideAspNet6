@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore;
 
-WebHost.CreateDefaultBuilder()
+WebHost.CreateDefaultBuilder(args)
     .UseStartup<Startup>()
     .Build()
     .Run();

@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 var random = new Random();
-var builder = WebApplication.CreateBuilder();
+var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHealthChecks()
     .AddCheck(name: "foo", check: Check)
     .AddCheck(name: "bar", check: Check)
