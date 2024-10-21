@@ -8,7 +8,7 @@ namespace App
         public string LongTimePattern { get; set; }
         public string ShortDatePattern { get; set; }
         public string ShortTimePattern { get; set; }
-
+        public DateTimeFormatOptions() { }
         public DateTimeFormatOptions(IConfiguration config)
         {
             LongDatePattern = config["LongDatePattern"];

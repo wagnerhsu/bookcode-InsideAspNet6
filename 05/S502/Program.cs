@@ -1,5 +1,6 @@
 ﻿using App;
 using Microsoft.Extensions.Configuration;
+using Dumpify;
 
 var source = new Dictionary<string, string>
 {
@@ -28,3 +29,11 @@ Console.WriteLine($"\tShortTimePattern: {dateTime.ShortTimePattern}");
 Console.WriteLine("CurrencyDecimal:");
 Console.WriteLine($"\tDigits:{currencyDecimal.Digits}");
 Console.WriteLine($"\tSymbol:{currencyDecimal.Symbol}");
+
+var result = configuration.GetSection("format:dateTime:shortTimePattern").Get<string>();
+result.Dump("ShortTimePattern");
+
+result = configuration.GetSection("format:dateTime").GetValue<string>("shortTimePattern");
+result.Dump("GetValue");
+var myDateTimeFormatOptions = configuration.GetSection("format:dateTime").Get<DateTimeFormatOptions>();
+myDateTimeFormatOptions.Dump("DateTimeFormatOptions");
