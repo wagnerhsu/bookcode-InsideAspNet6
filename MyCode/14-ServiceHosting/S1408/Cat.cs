@@ -1,52 +1,54 @@
-﻿using System.Collections.Concurrent;
+﻿// Copyright (c) xxx, 2022. All rights reserved.
 
-namespace App
+using System.Collections.Concurrent;
+
+namespace App;
+
+public class Cat : IServiceProvider, IDisposable
 {
-    public class Cat : IServiceProvider, IDisposable
+    internal readonly Cat _root;
+    internal readonly ConcurrentDictionary<Type, ServiceRegistry> _registries;
+    private readonly ConcurrentDictionary<Key, object?> _services;
+    private readonly ConcurrentBag<IDisposable> _disposables;
+    private volatile bool _disposed;
+
+    public Cat()
     {
-        internal readonly Cat _root;
-        internal readonly ConcurrentDictionary<Type, ServiceRegistry> _registries;
-        private readonly ConcurrentDictionary<Key, object?> _services;
-        private readonly ConcurrentBag<IDisposable> _disposables;
-        private volatile bool _disposed;
+        _registries = new ConcurrentDictionary<Type, ServiceRegistry>();
+        _root = this;
+        _services = new ConcurrentDictionary<Key, object?>();
+        _disposables = new ConcurrentBag<IDisposable>();
+    }
 
-        public Cat()
-        {
-            _registries = new ConcurrentDictionary<Type, ServiceRegistry>();
-            _root = this;
-            _services = new ConcurrentDictionary<Key, object?>();
-            _disposables = new ConcurrentBag<IDisposable>();
-        }
+    internal Cat(Cat parent)
+    {
+        _root = parent._root;
+        _registries = _root._registries;
+        _services = new ConcurrentDictionary<Key, object?>();
+        _disposables = new ConcurrentBag<IDisposable>();
+    }
 
-        internal Cat(Cat parent)
+    private void EnsureNotDisposed()
+    {
+        if (_disposed)
         {
-            _root = parent._root;
-            _registries = _root._registries;
-            _services = new ConcurrentDictionary<Key, object?>();
-            _disposables = new ConcurrentBag<IDisposable>();
+            throw new ObjectDisposedException("Cat");
         }
-
-        private void EnsureNotDisposed()
+    }
+    public Cat Register(ServiceRegistry registry)
+    {
+        EnsureNotDisposed();
+        if (_registries.TryGetValue(registry.ServiceType, out var existing))
         {
-            if (_disposed)
-            {
-                throw new ObjectDisposedException("Cat");
-            }
+            _registries[registry.ServiceType] = registry;
+            registry.Next = existing;
         }
-        public Cat Register(ServiceRegistry registry)
+        else
         {
-            EnsureNotDisposed();
-            if (_registries.TryGetValue(registry.ServiceType, out var existing))
-            {
-                _registries[registry.ServiceType] = registry;
-                registry.Next = existing;
-            }
-            else
-            {
-                _registries[registry.ServiceType] = registry;
-            }
-            return this;
+            _registries[registry.ServiceType] = registry;
         }
+        return this;
+    }
 
     public object? GetService(Type serviceType)
     {
@@ -90,16 +92,16 @@ namespace App
                 : null;
     }
 
-        public void Dispose()
+    public void Dispose()
+    {
+        _disposed = true;
+        foreach (var disposable in _disposables)
         {
-            _disposed = true;
-            foreach (var disposable in _disposables)
-            {
-                disposable.Dispose();
-            }
-            _disposables.Clear();
-            _services.Clear();
+            disposable.Dispose();
         }
+        _disposables.Clear();
+        _services.Clear();
+    }
 
     private object? GetServiceCore(ServiceRegistry registry, Type[] genericArguments)
     {
@@ -135,6 +137,5 @@ namespace App
             }
             return service;
         }
-    }
     }
 }

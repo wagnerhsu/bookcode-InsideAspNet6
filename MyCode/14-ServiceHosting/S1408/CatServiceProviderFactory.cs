@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿// Copyright (c) xxx, 2022. All rights reserved.
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace App
 {

@@ -1,4 +1,7 @@
-﻿using System.Reflection;
+﻿// Copyright (c) xxx, 2025.. All rights reserved.
+
+
+using System.Reflection;
 
 namespace App
 {

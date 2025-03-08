@@ -1,5 +1,7 @@
-﻿namespace App
-{
+﻿// Copyright (c) xxx, 2022. All rights reserved.
+
+namespace App;
+
 public class ServiceRegistry
 {
     public Type ServiceType { get; }
@@ -23,6 +25,4 @@ public class ServiceRegistry
         }
         return list;
     }
-}
-
 }
