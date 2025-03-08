@@ -1,7 +1,11 @@
-﻿using App;
+﻿// Copyright (c) xxx, 2022. All rights reserved.
+
+
+
+using App;
 
 var collector = new MetricsCollector();
-Host.CreateDefaultBuilder()
+Host.CreateDefaultBuilder(args)
     .ConfigureServices((context, svcs) => svcs
         .AddHostedService<PerformanceMetricsCollector>()
         .AddSingleton<IProcessorMetricsCollector>(collector)

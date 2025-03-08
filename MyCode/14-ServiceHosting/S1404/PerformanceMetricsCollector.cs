@@ -16,13 +16,15 @@ namespace App
             IMemoryMetricsCollector memoryMetricsCollector,
             INetworkMetricsCollector networkMetricsCollector,
             IMetricsDeliverer metricsDeliverer,
-            IOptions<MetricsCollectionOptions> optionsAccessor)
+            IOptions<MetricsCollectionOptions> optionsAccessor,
+            IHostEnvironment hostEnvironment)
         {
             _processorMetricsCollector = processorMetricsCollector;
             _memoryMetricsCollector = memoryMetricsCollector;
             _networkMetricsCollector = networkMetricsCollector;
             _metricsDeliverer = metricsDeliverer;
             _captureInterval = optionsAccessor.Value.CaptureInterval;
+            Console.WriteLine($"Environment: {hostEnvironment.EnvironmentName}");
         }
 
         public Task StartAsync(CancellationToken cancellationToken)
