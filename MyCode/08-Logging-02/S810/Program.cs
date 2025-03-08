@@ -8,8 +8,8 @@ var template = @"Method FoobarAsync is invoked.
     Return value: {returnValue}
     Time:{time}";
 var log = LoggerMessage.Define<int, long, double, TimeSpan>(
-    logLevel: LogLevel.Information, 
-    eventId: 3721, 
+    logLevel: LogLevel.Information,
+    eventId: 3721,
     formatString: template);
 var logger = new ServiceCollection()
     .AddLogging(builder => builder.AddConsole())
